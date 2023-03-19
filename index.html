@@ -1,17 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Find IP Address</title>
+    <title>Get IP Address</title>
   </head>
   <body>
-    <h1>Find IP Address</h1>
+    <h1>Get IP Address</h1>
     <button onclick="getIpAddress()">Find IP</button>
-    <p id="ip-address"></p>
+    <p>Your IP address is: <span id="ip-address"></span></p>
     <script>
       function getIpAddress() {
-        fetch('/get_ip_address', { method: 'POST' })
-          .then(response => response.text())
-          .then(ipAddress => document.getElementById('ip-address').innerText = ipAddress);
+        fetch('https://api.ipify.org?format=json')
+          .then(response => response.json())
+          .then(data => {
+            const ipAddress = data.ip;
+            document.getElementById('ip-address').textContent = ipAddress;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
       }
     </script>
   </body>
